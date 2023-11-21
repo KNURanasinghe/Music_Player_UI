@@ -14,7 +14,9 @@ class Player extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: bgColor,
-        appBar: AppBar(),
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: whiteColor),
+        ),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
           child: Column(

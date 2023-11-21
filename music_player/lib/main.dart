@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:music_player/Screens/home.dart';
+
+import 'Screens/splashScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Music Player',
-      home: const Home(),
+      home: const SplashScreen(),
       theme: ThemeData(
           fontFamily: "regular",
           appBarTheme: const AppBarTheme(
