@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/Controller/playerController.dart';
+import 'package:music_player/Screens/player.dart';
 import 'package:music_player/consts/colors.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -40,7 +41,7 @@ class Home extends StatelessWidget {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.data.isBlank) {
+              } else if (snapshot.data.isEmpty) {
                 return const Center(
                   child: Text(
                     "No Songs Found",
@@ -52,31 +53,48 @@ class Home extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      itemCount: 100,
+                      itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                             margin: const EdgeInsets.only(bottom: 4),
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                              tileColor: bgColor,
-                              title: const Text("Music Name",
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.white)),
-                              subtitle: const Text(
-                                "Artist Name",
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.white),
-                              ),
-                              leading: const Icon(
-                                Icons.music_note,
-                                color: whiteColor,
-                                size: 32,
-                              ),
-                              trailing: const Icon(
-                                Icons.play_arrow,
-                                color: whiteColor,
-                                size: 26,
+                            child: Obx(
+                              () => ListTile(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                tileColor: bgColor,
+                                title: Text(
+                                    snapshot.data![index].displayNameWOExt,
+                                    style: const TextStyle(
+                                        fontSize: 15, color: Colors.white)),
+                                subtitle: Text(
+                                  snapshot.data![index].artist,
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Colors.white),
+                                ),
+                                leading: QueryArtworkWidget(
+                                  id: snapshot.data![index].id,
+                                  type: ArtworkType.AUDIO,
+                                  nullArtworkWidget: const Icon(
+                                    Icons.music_note,
+                                    color: whiteColor,
+                                    size: 32,
+                                  ),
+                                ),
+                                trailing: controller.playIndex.value == index &&
+                                        controller.isPlaing.value
+                                    ? const Icon(
+                                        Icons.play_arrow,
+                                        color: whiteColor,
+                                        size: 26,
+                                      )
+                                    : null,
+                                onTap: () {
+                                  Get.to(() => Player(
+                                        data: snapshot.data!,
+                                      ));
+                                  controller.playSong(
+                                      snapshot.data![index].uri, index);
+                                },
                               ),
                             ));
                       }),

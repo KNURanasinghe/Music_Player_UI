@@ -33,11 +33,12 @@ dependencies:
     sdk: flutter
   get: ^4.6.6
   just_audio: ^0.9.36
+  just_audio_background: ^0.0.1-beta.11
   on_audio_query: ^2.9.0
   permission_handler: ^11.1.0
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
 
